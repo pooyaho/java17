@@ -1,6 +1,100 @@
 package ir.digikala.session1;
 
+import java.util.Random;
+
 public class Calculator {
+    public static double avg(int[] a) {
+        return (double) sum(a) / a.length;
+    }
+
+    public static void bubbleSort(int[] arr) {
+        int i, j, temp;
+        boolean swapped;
+        for (i = 0; i < arr.length - 1; i++) {
+            swapped = false;
+            for (j = 0; j < arr.length - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    // Swap arr[j] and arr[j+1]
+                    temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+
+                    swapped = true;
+                }
+            }
+//
+//            // If no two elements were
+//            // swapped by inner loop, then break
+            if (swapped == false)
+                break;
+        }
+    }
+
+    public static int compare(int[] a, int[] b) {
+        int n = min(of(a.length, b.length));
+        for (int i = 0; i < n; i++) {
+            if (a[i] > b[i]) {
+                return 1;
+            } else if (a[i] < b[i]) {
+                return -1;
+            }
+        }
+        return Integer.compare(a.length, b.length);
+    }
+
+    public static int[] of(int... a) {
+        return a;
+    }
+
+    public static int[] randomArray(int n) {
+        if (n <= 0) {
+            return null;
+        }
+        int[] result = new int[n];
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            result[i] = random.nextInt();
+        }
+        return result;
+    }
+
+    public static Long sum(int[] a) {
+        if (a == null || a.length == 0) {
+            return null;
+        }
+
+        Long sum = 0L;
+        for (int i : a) {
+            sum += i;
+        }
+        return sum;
+    }
+
+    public static Integer max(int[] a) {
+        if (a == null || a.length == 0) {
+            return null;
+        }
+        int max = Integer.MIN_VALUE;
+        for (int j : a) {
+            if (j > max) {
+                max = j;
+            }
+        }
+        return max;
+    }
+
+    public static Integer min(int[] a) {
+        if (a == null || a.length == 0) {
+            return null;
+        }
+        int min = Integer.MAX_VALUE;
+        for (int j : a) {
+            if (j < min) {
+                min = j;
+            }
+        }
+        return min;
+    }
 
     public static long add(int[] a) {
         long sum = 0;
@@ -33,6 +127,9 @@ public class Calculator {
     }
 
     public static String toString(int[] a) {
+        if (a == null) {
+            return "";
+        }
         StringBuilder result = new StringBuilder("[");
 //        for (int i = 0; i < a.length; i++) {
 //            if (i != a.length - 1) {
@@ -137,7 +234,7 @@ public class Calculator {
         return result;
     }
 
-    public static Integer findFirstPrime(int... a) {
+    public static Integer findFirstPrime(int[] a) {
         for (int i : a) {
             if (isPrime(i)) {
                 return i;

@@ -30,9 +30,10 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+#https://github.com/pooyaho/java17
 ### VS Code ###
 .vscode/
+.idea/
 
 ### Mac OS ###
 .DS_Store
