@@ -1,7 +1,6 @@
 package ir.digikala.session1;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,12 +51,29 @@ public class Main {
 //        System.out.println("Calculator.avg(randomArray) = " + Calculator.avg(Calculator.of(1, 3, 5, 2)));
 //        long l2 = System.currentTimeMillis();
 //        System.out.println(l2 - l);
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        HashSet<Integer> set = new HashSet<>();
+        set.add(12);
+        set.add(13);
+        set.add(456);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("name", "Ali");
+        map.put("family", "Alavi");
+        map.put("nationalCode", "1234567890");
+        System.out.println(map.get("nationalCode"));
 
-        int[] ints = scanner1();
+
+        arrayList.add(12);
+// immutable or mutable
+        String s = "Hello";
+
+        System.out.println(s);
+        ArrayList<Integer> ints = scanner1();
         doOperation(ints);
     }
 
-    private static void doOperation(int[] ints) {
+    private static void doOperation(ArrayList<Integer> ints) {
         boolean shouldBreak = false;
         while (!shouldBreak) {
             System.out.println("Select one of below commands");
@@ -84,31 +100,32 @@ public class Main {
         }
     }
 
-    private static int[] scanner1() {
+    private static ArrayList<Integer> scanner1() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input Array items in space separated format");
         String s = scanner.nextLine();
         String[] strings = s.split(" ");
-        int[] ints = new int[strings.length];
-        for (int i = 0; i < strings.length; i++) {
-            ints[i] = Integer.parseInt(strings[i]);
+        ArrayList<Integer> ints = new ArrayList<>();
+
+        for (String string : strings) {
+            ints.add(Integer.parseInt(string));
         }
-        System.out.println("Input is " + Arrays.toString(ints));
+        System.out.println("Input is " + ints);
         return ints;
     }
 
-    private static int[] scanner2() {
+    private static ArrayList<Integer> scanner2() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input size of array");
         int n = scanner.nextInt();
-        int[] ints = new int[n];
+        ArrayList<Integer> ints = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             System.out.println("Input the " + (i + 1) + "th number");
             int a = scanner.nextInt();
-            ints[i] = a;
+            ints.add(a);
         }
 
-        System.out.println("Input is " + Arrays.toString(ints));
+        System.out.println("Input is " + ints);
         return ints;
     }
 
@@ -119,3 +136,5 @@ public class Main {
         return fibonacci(n - 1) + fibonacci(n - 2);
     }
 }
+
+

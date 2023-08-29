@@ -1,10 +1,11 @@
 package ir.digikala.session1;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Calculator {
-    public static double avg(int[] a) {
-        return (double) sum(a) / a.length;
+    public static double avg(ArrayList<Integer> a) {
+        return (double) sum(a) / a.size();
     }
 
     public static void bubbleSort(int[] arr) {
@@ -58,8 +59,8 @@ public class Calculator {
         return result;
     }
 
-    public static Long sum(int[] a) {
-        if (a == null || a.length == 0) {
+    public static Long sum(ArrayList<Integer> a) {
+        if (a == null || a.isEmpty()) {
             return null;
         }
 
