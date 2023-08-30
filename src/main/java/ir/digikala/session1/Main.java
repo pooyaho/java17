@@ -1,6 +1,7 @@
 package ir.digikala.session1;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,25 +53,28 @@ public class Main {
 //        long l2 = System.currentTimeMillis();
 //        System.out.println(l2 - l);
         ArrayList<Integer> arrayList = new ArrayList<>();
-        LinkedList<Integer> linkedList = new LinkedList<>();
-        HashSet<Integer> set = new HashSet<>();
-        set.add(12);
-        set.add(13);
-        set.add(456);
-        HashMap<String, String> map = new HashMap<>();
-        map.put("name", "Ali");
-        map.put("family", "Alavi");
-        map.put("nationalCode", "1234567890");
-        System.out.println(map.get("nationalCode"));
+//        LinkedList<Integer> linkedList = new LinkedList<>();
+//        HashSet<Integer> set = new HashSet<>();
+//        set.add(12);
+//        set.add(13);
+//        set.add(456);
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("name", "Ali");
+//        map.put("family", "Alavi");
+//        map.put("nationalCode", "1234567890");
+//        System.out.println(map.get("nationalCode"));
 
 
         arrayList.add(12);
 // immutable or mutable
-        String s = "Hello";
+//        String s = "Hello";
 
-        System.out.println(s);
+//        System.out.println(s);
         ArrayList<Integer> ints = scanner1();
-        doOperation(ints);
+//        for (Integer anInt : ints) {
+//            ints.remove(anInt);
+//        }
+//        doOperation(ints);
     }
 
     private static void doOperation(ArrayList<Integer> ints) {

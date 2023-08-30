@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Calculator {
+    public static int[] remove(int index) {
+        return null;
+    }
+
     public static double avg(ArrayList<Integer> a) {
         return (double) sum(a) / a.size();
     }
