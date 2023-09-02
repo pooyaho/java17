@@ -1,6 +1,8 @@
 package ir.digikala.session1;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -52,7 +54,19 @@ public class Main {
 //        System.out.println("Calculator.avg(randomArray) = " + Calculator.avg(Calculator.of(1, 3, 5, 2)));
 //        long l2 = System.currentTimeMillis();
 //        System.out.println(l2 - l);
-        ArrayList<Integer> arrayList = new ArrayList<>();
+        LinkedList<Integer> arrayList = new LinkedList<>();
+        List<Integer> list = arrayList;
+        ArrayList<Integer> list1 = (ArrayList<Integer>) (list);
+        for (int i = 0; i < 100; i++) {
+            arrayList.add(i);
+        }
+// revolutionary os
+        int sum = 0;
+        for (Integer i : arrayList) {
+            sum += i;
+        }
+        System.out.println(sum);
+
 //        LinkedList<Integer> linkedList = new LinkedList<>();
 //        HashSet<Integer> set = new HashSet<>();
 //        set.add(12);
@@ -65,19 +79,20 @@ public class Main {
 //        System.out.println(map.get("nationalCode"));
 
 
-        arrayList.add(12);
 // immutable or mutable
 //        String s = "Hello";
 
+
 //        System.out.println(s);
-        ArrayList<Integer> ints = scanner1();
+        Integer[] ints = scanner1();
+        doOperation(ints);
 //        for (Integer anInt : ints) {
 //            ints.remove(anInt);
 //        }
 //        doOperation(ints);
     }
 
-    private static void doOperation(ArrayList<Integer> ints) {
+    private static void doOperation(Integer[] ints) {
         boolean shouldBreak = false;
         while (!shouldBreak) {
             System.out.println("Select one of below commands");
@@ -87,16 +102,17 @@ public class Main {
 
             Scanner scanner = new Scanner(System.in);
             int i = scanner.nextInt();
+            NumericCalculator calculator = new IntegerCalculator(ints);
             switch (i) {
                 case 0 -> {
                     shouldBreak = true;
                 }
                 case 1 -> {
-                    double avg = Calculator.avg(ints);
+                    double avg = calculator.avg();
                     System.out.println("Average is " + avg);
                 }
                 case 2 -> {
-                    Long sum = Calculator.sum(ints);
+                    Double sum = calculator.sum();
                     System.out.println("Sum is " + sum);
                 }
                 default -> System.err.println("Invalid input");
@@ -104,7 +120,7 @@ public class Main {
         }
     }
 
-    private static ArrayList<Integer> scanner1() {
+    private static Integer[] scanner1() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Input Array items in space separated format");
         String s = scanner.nextLine();
@@ -115,7 +131,7 @@ public class Main {
             ints.add(Integer.parseInt(string));
         }
         System.out.println("Input is " + ints);
-        return ints;
+        return ints.toArray(new Integer[0]);
     }
 
     private static ArrayList<Integer> scanner2() {

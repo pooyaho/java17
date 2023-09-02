@@ -1,18 +1,38 @@
 package ir.digikala.session1;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class Calculator {
-    public static int[] remove(int index) {
+public class IntegerCalculator extends NumericCalculator<Integer> {
+
+    public IntegerCalculator(Integer[] arr) {
+        super(arr);
+    }
+
+    public static IntegerCalculator of(Integer... a) {
+        return new IntegerCalculator(a);
+    }
+
+    public static IntegerCalculator randomArray(int n) {
+        if (n <= 0) {
+            return null;
+        }
+        Integer[] result = new Integer[n];
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            result[i] = random.nextInt();
+        }
+        return new IntegerCalculator(result);
+    }
+
+    public IntegerCalculator remove(int index) {
         return null;
     }
 
-    public static double avg(ArrayList<Integer> a) {
-        return (double) sum(a) / a.size();
+    public Double avg() {
+        return sum() / arr.length;
     }
 
-    public static void bubbleSort(int[] arr) {
+    public void bubbleSort() {
         int i, j, temp;
         boolean swapped;
         for (i = 0; i < arr.length - 1; i++) {
@@ -35,52 +55,36 @@ public class Calculator {
         }
     }
 
-    public static int compare(int[] a, int[] b) {
-        int n = min(of(a.length, b.length));
+    public int compare(Integer[] b) {
+        int n = of(arr.length, b.length).min();
         for (int i = 0; i < n; i++) {
-            if (a[i] > b[i]) {
+            if (arr[i] > b[i]) {
                 return 1;
-            } else if (a[i] < b[i]) {
+            } else if (arr[i] < b[i]) {
                 return -1;
             }
         }
-        return Integer.compare(a.length, b.length);
+        return Integer.compare(arr.length, b.length);
     }
 
-    public static int[] of(int... a) {
-        return a;
-    }
-
-    public static int[] randomArray(int n) {
-        if (n <= 0) {
-            return null;
-        }
-        int[] result = new int[n];
-        Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            result[i] = random.nextInt();
-        }
-        return result;
-    }
-
-    public static Long sum(ArrayList<Integer> a) {
-        if (a == null || a.isEmpty()) {
+    public Double sum() {
+        if (arr == null || arr.length == 0) {
             return null;
         }
 
-        Long sum = 0L;
-        for (int i : a) {
+        double sum = 0;
+        for (int i : arr) {
             sum += i;
         }
         return sum;
     }
 
-    public static Integer max(int[] a) {
-        if (a == null || a.length == 0) {
+    public Integer max() {
+        if (arr == null || arr.length == 0) {
             return null;
         }
         int max = Integer.MIN_VALUE;
-        for (int j : a) {
+        for (int j : arr) {
             if (j > max) {
                 max = j;
             }
@@ -88,12 +92,12 @@ public class Calculator {
         return max;
     }
 
-    public static Integer min(int[] a) {
-        if (a == null || a.length == 0) {
+    public Integer min() {
+        if (arr == null || arr.length == 0) {
             return null;
         }
         int min = Integer.MAX_VALUE;
-        for (int j : a) {
+        for (int j : arr) {
             if (j < min) {
                 min = j;
             }
@@ -101,16 +105,9 @@ public class Calculator {
         return min;
     }
 
-    public static long add(int[] a) {
-        long sum = 0;
-        for (int i : a) {
-            sum += i;
-        }
-        return sum;
-    }
 
-    public static int[] subArray(int[] a, int from, int to) {
-        if (a.length == 0) {
+    public IntegerCalculator subArray(int from, int to) {
+        if (arr.length == 0) {
             return null;
         }
         if (to < from) {
@@ -119,20 +116,21 @@ public class Calculator {
         if (from < 0) {
             return null;
         }
-        if (from >= a.length || to >= a.length) {
+        if (from >= arr.length || to >= arr.length) {
             return null;
         }
-        int[] result = new int[to - from + 1];
+        Integer[] result = new Integer[to - from + 1];
         int index = 0;
         for (int i = from; i <= to; i++) {
-            result[index++] = a[i];
+            result[index++] = arr[i];
         }
-        return result;
+        return new IntegerCalculator(result);
 
     }
 
-    public static String toString(int[] a) {
-        if (a == null) {
+    @Override
+    public String toString() {
+        if (arr == null) {
             return "";
         }
         StringBuilder result = new StringBuilder("[");
@@ -143,7 +141,7 @@ public class Calculator {
 //                result += a[i];
 //            }
 //        }
-        for (int i : a) {
+        for (int i : arr) {
             result.append(i).append(", ");
         }
         if (!result.toString().equals("[")) {
@@ -153,54 +151,54 @@ public class Calculator {
         return result.toString();
     }
 
-    public static boolean isEqual(int[] a, int[] b) {
-        if (a.length != b.length) {
+    public boolean equals(int[] b) {
+        if (arr.length != b.length) {
             return false;
         }
-        if (a.length == 0) {
+        if (arr.length == 0) {
             return false;
         }
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i]) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != b[i]) {
                 return false;
             }
         }
         return true;
     }
 
-    public static int[] reverse(int[] a) {
-        int[] result = new int[a.length];
-        for (int i = a.length - 1; i >= 0; i--) {
-            result[a.length - 1 - i] = a[i];
+    public IntegerCalculator reverse() {
+        Integer[] result = new Integer[arr.length];
+        for (int i = arr.length - 1; i >= 0; i--) {
+            result[arr.length - 1 - i] = arr[i];
+        }
+        return new IntegerCalculator(result);
+    }
+
+    public int[] reverse2() {
+        int[] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result[arr.length - 1 - i] = arr[i];
         }
         return result;
     }
 
-    public static int[] reverse2(int[] a) {
-        int[] result = new int[a.length];
-        for (int i = 0; i < a.length; i++) {
-            result[a.length - 1 - i] = a[i];
-        }
-        return result;
+    public boolean contains(Integer item) {
+        return indexOf(item) >= 0;
     }
 
-    public static boolean contains(int[] a, int item) {
-        return indexOf(a, item) >= 0;
-    }
-
-    public static int indexOf(int[] a, int item) {
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] == item) {
+    public int indexOf(Integer item) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == item) {
                 return i;
             }
         }
         return -1;
     }
 
-    public static Integer[] findAllPrimes(int[] a) {
-        Integer[] result = new Integer[a.length];
+    public IntegerCalculator findAllPrimes() {
+        Integer[] result = new Integer[arr.length];
         int index = 0;
-        for (int i : a) {
+        for (int i : arr) {
             if (isPrime(i)) {
                 result[index] = i;
                 index += 1;
@@ -218,19 +216,19 @@ public class Calculator {
         for (int i = 0; i < count; i++) {
             temp[i] = result[i];
         }
-        return temp;
+        return new IntegerCalculator(temp);
     }
 
-    public static Integer[] findAllPrimes2(int[] a) {
+    public Integer[] findAllPrimes2() {
         int count = 0;
-        for (int i : a) {
+        for (int i : arr) {
             if (isPrime(i)) {
                 count++;
             }
         }
         Integer[] result = new Integer[count];
         int index = 0;
-        for (int i : a) {
+        for (int i : arr) {
             if (isPrime(i)) {
                 result[index] = i;
                 index += 1;
@@ -239,8 +237,8 @@ public class Calculator {
         return result;
     }
 
-    public static Integer findFirstPrime(int[] a) {
-        for (int i : a) {
+    public Integer findFirstPrime() {
+        for (int i : arr) {
             if (isPrime(i)) {
                 return i;
             }
@@ -248,7 +246,7 @@ public class Calculator {
         return null;
     }
 
-    private static boolean isPrime(int i) {
+    private boolean isPrime(int i) {
         int count = 0;
         for (int j = 1; j <= (i / 2); j++) {
             if (i % j == 0) {
@@ -258,26 +256,4 @@ public class Calculator {
         return count == 1;
     }
 
-    public static int add(int a, int b) {
-        return a + b;
-    }
-
-    public static float add(float a, float b) {
-        return a + b;
-    }
-
-    public static int minus(int a, int b) {
-        return a - b;
-
-    }
-
-    public static int multiply(int a, int b) {
-        return a * b;
-
-    }
-
-    public static double divide(int a, int b) {
-        //todo check division by zero
-        return a / (double) b;
-    }
 }
