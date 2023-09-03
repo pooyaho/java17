@@ -1,4 +1,4 @@
-package ir.digikala.session1;
+package ir.digikala.session1.calculators;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package ir.digikala.session1;
+package ir.digikala.session1.calculators;
 
 
 public abstract class NumericCalculator<T extends Number> extends GeneralCalculator<T> {
