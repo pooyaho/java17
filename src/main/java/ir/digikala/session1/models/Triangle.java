@@ -10,7 +10,7 @@ public class Triangle extends Shape {
     }
 
     public Triangle(Long a, Long b, Long c) {
-        super(a);
+        setA(a);
         this.b = b;
         this.c = c;
     }
