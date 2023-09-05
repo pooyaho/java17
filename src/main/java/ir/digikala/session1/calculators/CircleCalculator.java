@@ -12,3 +12,21 @@ public class CircleCalculator implements BaseCalculator<Circle> {
     }
 }
 
+class ArrayUtil<T> {
+    private Integer integer;
+
+    public static <E> E itemAt(E[] arr, E item, int index) {
+        if (index < 0) {
+            return null;
+        }
+        return arr[index];
+    }
+
+    public static void main(String[] args) {
+        Integer[] integers = new Integer[]{1, 2, 3, 4};
+        Integer item = itemAt(integers, 2, 2);
+
+        System.out.println(item);
+    }
+
+}

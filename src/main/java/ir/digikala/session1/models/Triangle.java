@@ -5,6 +5,16 @@ public class Triangle extends Shape {
     private Long b;
     private Long c;
 
+    public Triangle() {
+        this(null, null, null);
+    }
+
+    public Triangle(Long a, Long b, Long c) {
+        super(a);
+        this.b = b;
+        this.c = c;
+    }
+
     public Long getB() {
         return b;
     }
