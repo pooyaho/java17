@@ -1,7 +1,9 @@
 package ir.digikala.session1;
 
 
+import ir.digikala.session1.calculators.IntegerCalculator;
 import ir.digikala.session1.calculators.NumericCalculator;
+import ir.digikala.session1.exceptions.EmptyArrayException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -9,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EmptyArrayException {
 //        int[] a = {10, 6, 12, 5, 13};
 //        int[] a = new int[100000];
 //        for (int i = 0; i < 100000; i++) {
@@ -95,7 +97,7 @@ public class Main {
 //        doOperation(ints);
     }
 
-    private static void doOperation(Integer[] ints) {
+    private static void doOperation(Integer[] ints) throws EmptyArrayException {
         boolean shouldBreak = false;
         while (!shouldBreak) {
             System.out.println("Select one of below commands");
@@ -173,4 +175,30 @@ public class Main {
     }
 }
 
+
+class MyClass {
+    private Integer integer;
+
+    public static void main(String[] args) {
+        MyClass myClass = new MyClass();
+        myClass.setInteger(123);
+        InnerClass innerClass = new MyClass.InnerClass();
+        innerClass.print();
+    }
+
+    public Integer getInteger() {
+        return integer;
+    }
+
+    public void setInteger(Integer integer) {
+        this.integer = integer;
+    }
+
+    static class InnerClass {
+        public void print() {
+
+            System.out.println("Hello world from inner class!");
+        }
+    }
+}
 
