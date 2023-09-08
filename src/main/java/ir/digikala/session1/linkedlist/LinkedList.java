@@ -51,12 +51,14 @@ public class LinkedList<T> implements Iterable<T> {
 
         Node<T> beforeNode = null;
         Node<T> currentNode = head;
-        while (currentNode.getNext() != null) {
-            if (currentNode.getNext() == node) {
-                beforeNode = currentNode;
-                break;
+        if (node != head) {
+            while (currentNode.getNext() != null) {
+                if (currentNode.getNext() == node) {
+                    beforeNode = currentNode;
+                    break;
+                }
+                currentNode = currentNode.getNext();
             }
-            currentNode = currentNode.getNext();
         }
         if (beforeNode == null) {
             head = head.getNext();
