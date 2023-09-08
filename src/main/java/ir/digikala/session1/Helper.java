@@ -9,6 +9,11 @@ interface Filter<T> {
 }
 
 @FunctionalInterface
+interface ForEach<T> {
+    void forEach(T item); //todo add foreach to linked list
+}
+
+@FunctionalInterface
 interface Map<T> {
     T map(T item);
 }
@@ -58,7 +63,6 @@ public class Helper {
         }
         return temp;
     }
-
 
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();
