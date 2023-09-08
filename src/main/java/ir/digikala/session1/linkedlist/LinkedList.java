@@ -10,7 +10,7 @@ public class LinkedList<T> implements Iterable<T> {
         for (int i = 0; i < 10; i++) {
             linkedList.add("Item " + i);
         }
-        linkedList.remove("Item 0");
+        linkedList.remove("Item 7");
         for (String i : linkedList) {
             System.out.println(i);
         }
@@ -34,7 +34,7 @@ public class LinkedList<T> implements Iterable<T> {
             return null;
         }
         Node<T> currentNode = head;
-        while (currentNode.getNext() != null) {
+        while (currentNode != null) {
             if (currentNode.getData().equals(item)) {
                 return currentNode;
             }
@@ -42,6 +42,7 @@ public class LinkedList<T> implements Iterable<T> {
         }
         return null;
     }
+
 
     public void remove(T item) {
         Node<T> node = findNode(item);
@@ -69,7 +70,7 @@ public class LinkedList<T> implements Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private Node<T> root = LinkedList.this.head;
 
             @Override
