@@ -46,9 +46,9 @@ public class Helper {
 
     }
 
-    public static List<Integer> filter(List<Integer> list, Filter<Integer> f) {
-        List<Integer> temp = new ArrayList<>();
-        for (Integer i : list) {
+    public static <T> List<T> filter(List<T> list, Filter<T> f) {
+        List<T> temp = new ArrayList<>();
+        for (T i : list) {
             if (f.filter(i)) {
                 temp.add(i);
             }
@@ -56,9 +56,9 @@ public class Helper {
         return temp;
     }
 
-    public static List<Integer> map(List<Integer> list, Map<Integer> f) {
-        List<Integer> temp = new ArrayList<>();
-        for (Integer i : list) {
+    public static <T> List<T> map(List<T> list, Map<T> f) {
+        List<T> temp = new ArrayList<>();
+        for (T i : list) {
             temp.add(f.map(i));
         }
         return temp;
