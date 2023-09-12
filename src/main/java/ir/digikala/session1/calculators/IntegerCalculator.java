@@ -2,8 +2,12 @@ package ir.digikala.session1.calculators;
 
 import ir.digikala.session1.exceptions.EmptyArrayException;
 
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IntegerCalculator extends NumericCalculator<Integer> {
 
@@ -19,22 +23,90 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
         if (n <= 0) {
             return null;
         }
-        Integer[] result = new Integer[n];
+
         Random random = new Random();
-        for (int i = 0; i < n; i++) {
-            result[i] = random.nextInt();
-        }
-        return new IntegerCalculator(result);
+        Integer[] array1 = random.ints(n, 0, 10000)
+                .boxed()
+                .toArray(Integer[]::new);
+
+        Integer[] array = IntStream.generate(() -> random.nextInt(0, 10000))
+                .limit(n)
+                .boxed()
+                .toArray(Integer[]::new);
+        return new IntegerCalculator(array1);
+//        Integer[] result = new Integer[n];
+//
+//        for (int i = 0; i < n; i++) {
+//            result[i] = random.nextInt();
+//        }
+//        return new IntegerCalculator(result);
     }
 
-    public static void main(String[] args) {
-//        IntegerCalculator ic = new IntegerCalculator(new Integer[]{1, 2, 3});
-        IntegerCalculator ic = new IntegerCalculator(new Integer[]{});
-        try {
-            System.out.println(ic.avg());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws EmptyArrayException {
+//        Integer[] m = null;
+//        Integer[] integers = Optional.ofNullable(m)
+//                .filter(i -> i.length > 0)
+//                .orElse(new Integer[]{1, 2, 3});
+//                .orElseThrow(() -> new EmptyArrayException("You should fill input array"));
+//        System.out.println(Arrays.toString(integers));
+        int count = 0;
+        IntStream.generate(() -> new Random().nextInt())
+                .limit(10)
+                .mapToObj(i -> new Student(String.valueOf(i), "Ali"))
+                .sorted(/*(i, j) -> {
+                    return i.getNationalCode().compareTo(j.getNationalCode());
+                }*/)
+                .forEach(i -> {
+                    System.out.println(count);
+                    System.out.println(i);
+                });
+
+
+        IntegerCalculator integerCalculator = IntegerCalculator.randomArray(10);
+
+        System.out.println(integerCalculator.toString());
+        Integer[] array = new Integer[]{1, 1, 1, 2, 3, 4, 5, 6, 7, 10, 201};
+        System.out.println(Arrays.stream(array)
+                .distinct()
+                .reduce(IntegerCalculator::add)
+                .get());
+        Arrays.stream(array)
+                .filter(i -> i % 2 == 0)
+                .map(i -> i * 2)
+                .forEach(i -> System.out.println(i));
+
+        System.out.println(Arrays.stream(array)
+
+                .map(i -> "Hello " + i)
+                .distinct()
+                .toList());
+
+        System.out.println(Arrays.stream(array)
+                .filter(i -> {
+                    if (i % 2 == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                })
+                .distinct()
+                .reduce((i, j) -> i + j)
+                .get());
+
+        System.out.println(Arrays.stream(array)
+                .map(i -> i.toString())
+                .collect(Collectors.joining(", ", "[", "]")));
+
+//        IntegerCalculator ic = new IntegerCalculator(new Integer[]{});
+//        try {
+//            System.out.println(ic.avg());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public static int add(int a, int b) {
+        return a + b;
     }
 
     @Override
@@ -96,42 +168,48 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
     }
 
     public Double sum() throws EmptyArrayException {
-        if (arr == null || arr.length == 0) {
+//        if (arr == null) {
 //            throw new RuntimeException("Array is empty");
-            throw new EmptyArrayException("You should fill input array");
-        }
+//            throw new EmptyArrayException("You should fill input array");
+//        }
+        Integer[] integers = Optional.of(arr)
+                .filter(i -> i.length > 0)
+                .orElseThrow(() -> new EmptyArrayException("You should fill input array"));
+        return Arrays.stream(integers)
+                .map(i -> (double) i)
+                .reduce((i, j) -> i + j)
+                .get();
 
-        double sum = 0;
-        for (int i : arr) {
-            sum += i;
-        }
-        return sum;
     }
 
     public Integer max() throws EmptyArrayException {
         if (arr == null || arr.length == 0) {
             throw new EmptyArrayException();
         }
-        int max = Integer.MIN_VALUE;
-        for (int j : arr) {
-            if (j > max) {
-                max = j;
-            }
-        }
-        return max;
+        return Arrays.stream(arr)
+                .reduce((i, j) -> {
+                    if (i > j) {
+                        return i;
+                    }
+                    return j;
+                })
+                .get();
+
+
     }
 
     public Integer min() throws EmptyArrayException {
         if (arr == null || arr.length == 0) {
             throw new EmptyArrayException();
         }
-        int min = Integer.MAX_VALUE;
-        for (int j : arr) {
-            if (j < min) {
-                min = j;
-            }
-        }
-        return min;
+        return Arrays.stream(arr)
+                .reduce((i, j) -> {
+                    if (i < j) {
+                        return i;
+                    }
+                    return j;
+                })
+                .get();
     }
 
     /**
@@ -155,12 +233,17 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
         if (from >= arr.length || to >= arr.length) {
             throw new IllegalArgumentException("from and to arguments should between size of array");
         }
-        Integer[] result = new Integer[to - from + 1];
-        int index = 0;
-        for (int i = from; i <= to; i++) {
-            result[index++] = arr[i];
-        }
-        return new IntegerCalculator(result);
+        Integer[] array = Arrays.stream(arr)
+                .skip(from)
+                .limit(to - from)
+                .toArray(Integer[]::new);
+        return new IntegerCalculator(array);
+//        Integer[] result = new Integer[to - from + 1];
+//        int index = 0;
+//        for (int i = from; i <= to; i++) {
+//            result[index++] = arr[i];
+//        }
+//        return new IntegerCalculator(result);
 
     }
 
@@ -169,7 +252,7 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
         if (arr == null) {
             return "";
         }
-        StringBuilder result = new StringBuilder("[");
+//        StringBuilder result = new StringBuilder("[");
 //        for (int i = 0; i < a.length; i++) {
 //            if (i != a.length - 1) {
 //                result += a[i] + ", ";
@@ -177,23 +260,21 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
 //                result += a[i];
 //            }
 //        }
-        for (int i : arr) {
-            result.append(i).append(", ");
-        }
-        if (!result.toString().equals("[")) {
-            result.delete(result.length() - 2, result.length());
-        }
-        result.append("]");
-        return result.toString();
+        return Arrays.stream(arr)
+                .map(i -> i.toString())
+                .collect(Collectors.joining(",", "[", "]"));
+
     }
 
     public boolean equals(int[] b) {
+
         if (arr.length != b.length) {
             return false;
         }
         if (arr.length == 0) {
             return false;
         }
+
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] != b[i]) {
                 return false;
@@ -219,7 +300,8 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
     }
 
     public boolean contains(Integer item) {
-        return indexOf(item) >= 0;
+        return Arrays.stream(arr)
+                .anyMatch(i -> i.equals(item));
     }
 
     public int indexOf(Integer item) {
@@ -232,27 +314,32 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
     }
 
     public IntegerCalculator findAllPrimes() {
-        Integer[] result = new Integer[arr.length];
-        int index = 0;
-        for (int i : arr) {
-            if (isPrime(i)) {
-                result[index] = i;
-                index += 1;
-            }
-        }
-        int count = 0;
-        for (Integer integer : result) {
-            if (integer != null) {
-                count++;
-            } else {
-                break;
-            }
-        }
-        Integer[] temp = new Integer[count];
-        for (int i = 0; i < count; i++) {
-            temp[i] = result[i];
-        }
-        return new IntegerCalculator(temp);
+        Integer[] array = Arrays.stream(arr)
+                .filter(i -> isPrime(i))
+                .toArray(Integer[]::new);
+        return new IntegerCalculator(array);
+
+//        Integer[] result = new Integer[arr.length];
+//        int index = 0;
+//        for (int i : arr) {
+//            if (isPrime(i)) {
+//                result[index] = i;
+//                index += 1;
+//            }
+//        }
+//        int count = 0;
+//        for (Integer integer : result) {
+//            if (integer != null) {
+//                count++;
+//            } else {
+//                break;
+//            }
+//        }
+//        Integer[] temp = new Integer[count];
+//        for (int i = 0; i < count; i++) {
+//            temp[i] = result[i];
+//        }
+//        return new IntegerCalculator(temp);
     }
 
     public Integer[] findAllPrimes2() {
@@ -283,12 +370,55 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
     }
 
     private boolean isPrime(int i) {
-        int count = 0;
-        for (int j = 1; j <= (i / 2); j++) {
-            if (i % j == 0) {
-                count++;
-            }
+//        int count = 0;
+
+        return !IntStream.range(2, i / 2)
+                .anyMatch(j -> i % j == 0);
+//        for (int j = 1; j <= (i / 2); j++) {
+//            if (i % j == 0) {
+//                count++;
+//            }
+//        }
+//        return count == 1;
+    }
+
+    static class Student implements Comparable<Student> {
+        private String nationalCode;
+        private String name;
+
+        public Student(String nationalCode, String name) {
+            this.nationalCode = nationalCode;
+            this.name = name;
         }
-        return count == 1;
+
+        public String getNationalCode() {
+            return nationalCode;
+        }
+
+        public void setNationalCode(String nationalCode) {
+            this.nationalCode = nationalCode;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "Student{" +
+                    "nationalCode='" + nationalCode + '\'' +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+
+
+        @Override
+        public int compareTo(Student o) {
+            return this.getNationalCode().compareTo(o.getNationalCode());
+        }
     }
 }
