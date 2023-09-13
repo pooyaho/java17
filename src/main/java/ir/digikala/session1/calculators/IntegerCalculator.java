@@ -2,10 +2,7 @@ package ir.digikala.session1.calculators;
 
 import ir.digikala.session1.exceptions.EmptyArrayException;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -23,6 +20,15 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
         if (n <= 0) {
             return null;
         }
+
+        IntStream.range(10, 100)
+                .parallel()
+                .map(i -> i + 100)
+                .sequential()
+                .reduce((i, j) -> i + j)
+                .ifPresent(i -> System.out.println(i));
+
+        Optional<Integer> i = Optional.of(12);
 
         Random random = new Random();
         Integer[] array1 = random.ints(n, 0, 10000)
@@ -42,6 +48,14 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
 //        return new IntegerCalculator(result);
     }
 
+    public static void swap(List<Integer> a, List<Integer> b) {
+        List<Integer> temp = a;
+        a = b;
+        b = temp;
+// memory leak
+        a.add(12);
+    }
+
     public static void main(String[] args) throws EmptyArrayException {
 //        Integer[] m = null;
 //        Integer[] integers = Optional.ofNullable(m)
@@ -50,6 +64,19 @@ public class IntegerCalculator extends NumericCalculator<Integer> {
 //                .orElseThrow(() -> new EmptyArrayException("You should fill input array"));
 //        System.out.println(Arrays.toString(integers));
         int count = 0;
+
+        List<Integer> list1 = new ArrayList<>(Arrays.asList(1, 2, 3));
+        List<Integer> list2 = new ArrayList<>(Arrays.asList(4, 5, 6));
+        swap(list1, list2);
+        System.out.println(list1);
+        System.out.println(list2);
+//        Collections.sort(Collections.unmodifiableList(list));
+//        System.out.println(list);
+
+        if (1 == 1) {
+            return;
+        }
+
         IntStream.generate(() -> new Random().nextInt())
                 .limit(10)
                 .mapToObj(i -> new Student(String.valueOf(i), "Ali"))
