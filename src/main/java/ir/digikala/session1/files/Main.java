@@ -1,9 +1,13 @@
 package ir.digikala.session1.files;
 
+import ir.digikala.session1.calculators.FileBaseNumericCalculator;
+
 import java.io.*;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 class Student implements Serializable {
@@ -42,13 +46,30 @@ class Student implements Serializable {
 
 public class Main {
 
-
-    public static void main(String[] args) throws IOException {
-        URL url = new URL("https://en.wikipedia.org/wiki/Stanley_Kubrick");
-        try (InputStreamReader reader = new InputStreamReader(url.openStream());
-             BufferedReader br = new BufferedReader(reader)) {
-            br.lines().forEach(i -> System.out.println(i));
+    private static void printString() {
+        try {
+            Thread.sleep(5000);
+            System.out.println("Hello world!");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            System.out.println("In finally");
         }
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        List<Integer> list = IntStream.generate(() -> new Random().nextInt())
+                .limit(100)
+                .boxed()
+                .toList();
+        FileBaseNumericCalculator f = new FileBaseNumericCalculator(list);
+        Thread.sleep(7000);
+        f.remove(50);
+//        URL url = new URL("https://en.wikipedia.org/wiki/Stanley_Kubrick");
+//        try (InputStreamReader reader = new InputStreamReader(url.openStream());
+//             BufferedReader br = new BufferedReader(reader)) {
+//            br.lines().forEach(i -> System.out.println(i));
+//        }
 //        Student s = new Student("John", "Doe");
 //        writeToFile("student.txt", s.getName() + "," + s.getFamily());
 //        try (Stream<String> stream = Files.lines(Paths.get("student.txt"))) {
