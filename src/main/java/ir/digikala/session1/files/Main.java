@@ -1,6 +1,6 @@
 package ir.digikala.session1.files;
 
-import ir.digikala.session1.calculators.FileBaseNumericCalculator;
+import ir.digikala.session1.threads.FileBaseNumericCalculator;
 
 import java.io.*;
 import java.nio.file.Files;

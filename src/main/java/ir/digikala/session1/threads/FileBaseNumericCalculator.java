@@ -1,5 +1,7 @@
-package ir.digikala.session1.calculators;
+package ir.digikala.session1.threads;
 
+import ir.digikala.session1.calculators.GeneralCalculator;
+import ir.digikala.session1.calculators.NumericCalculator;
 import ir.digikala.session1.exceptions.EmptyArrayException;
 
 import java.io.FileWriter;
@@ -11,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +22,6 @@ public class FileBaseNumericCalculator extends NumericCalculator<Integer> {
     private final ExecutorService executor;
     private List<Integer> array;
     private boolean dirty = false;
-
 
     public FileBaseNumericCalculator(List<Integer> arr) {
         super(null);
@@ -31,7 +32,7 @@ public class FileBaseNumericCalculator extends NumericCalculator<Integer> {
         this.array = new ArrayList<>(this.readAllFileContent());
         this.array.addAll(arr);
         System.out.println("Array set in constructor");
-        this.executor = Executors.newSingleThreadExecutor();
+        this.executor = new ForkJoinPool();
         executor.submit(() -> writeToFile());
         System.out.println("Scheduled task submitted");
         this.dirty = true;
@@ -43,7 +44,9 @@ public class FileBaseNumericCalculator extends NumericCalculator<Integer> {
 
     private void writeToFile() {
         while (true) {
-
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

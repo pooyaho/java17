@@ -3,6 +3,7 @@ package ir.digikala.session1.calculators;
 import ir.digikala.session1.models.Circle;
 
 class Singleton {
+    private static final Object LOCK = new Object();
     private static Singleton singleton;
 
     private Singleton() {
@@ -11,7 +12,11 @@ class Singleton {
 
     public static Singleton getInstance() {
         if (singleton == null) {
-            singleton = new Singleton();
+            synchronized (LOCK) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
         }
         return singleton;
     }
