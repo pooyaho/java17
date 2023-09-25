@@ -3,15 +3,23 @@ package ir.digikala.session1.threads;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
 public class FindMax {
-
-
     public static void main(String[] args) {
+        ReentrantLock reentrantLock = new ReentrantLock();
+        reentrantLock.lock();
+        // do something
+        reentrantLock.unlock();
+
         long l = System.currentTimeMillis();
+        int n = 10000000;
         for (int i = 0; i < 10; i++) {
-            syncMax();
+            System.out.println(IntStream.generate(() -> new Random().nextInt())
+                    .limit(n)
+                    .max()
+                    .getAsInt());
         }
         long l1 = System.currentTimeMillis();
         System.out.println(l1 - l);
@@ -40,6 +48,7 @@ public class FindMax {
         int nThreads = n / 1000000;
         int[] result = new int[nThreads];
         try (ExecutorService pool = new ForkJoinPool(100)) {
+
             for (int i = 0; i < nThreads; i++) {
                 int finalI = i;
                 pool.submit(() -> {
@@ -51,8 +60,6 @@ public class FindMax {
                     }
                     result[finalI] = max;
                 });
-
-
             }
         }
 
@@ -63,7 +70,5 @@ public class FindMax {
             }
         }
         System.out.println(max);
-
-
     }
 }
